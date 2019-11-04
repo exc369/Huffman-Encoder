@@ -1,0 +1,80 @@
+import java.util.*;
+import java.io.*;
+public class HuffmanCompressor {
+
+    private static HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    private static PriorityQueue<HuffmanNode> queue = new PriorityQueue<HuffmanNode>();
+
+    public static String huffmanCoder(String inputFileName, String outputFileName) throws FileNotFoundException {
+
+        //scanner object to read each individual word
+        Scanner scanner = new Scanner(new File(inputFileName));
+        //while loop to parse through the .txt file using scanner methods from the api
+        while(scanner.hasNext()) {
+            String word = scanner.next();
+            for (int i = 0; i < word.length(); i++) {
+                if (Character.toLowerCase(word.charAt(i)) >= 'a' && (Character.toLowerCase(word.charAt(i)) <= 'z')) {
+                    if (map.get(Character.toLowerCase(word.charAt(i))) == null) {
+                        map.put(Character.toLowerCase(word.charAt(i)), 1);
+                    } else {
+                        map.put(Character.toLowerCase(word.charAt(i)), map.get(Character.toLowerCase(word.charAt(i))));
+                    }
+                }
+            }
+        }
+            Set<Character> chars = map.keySet();
+                for (Character c: chars){
+                    int freq = map.get(c);
+                    HuffmanNode node = new HuffmanNode(c, freq, null,null);
+                    queue.add(node);
+                }
+        scanner.close();
+        return "";
+    }
+    int i = 0;
+    for( i = 0; i < queue.size(); i++){
+        System.out.println(queue.peek().getChar());
+    }
+    public static void merge(HuffmanNode n, HuffmanNode m){
+        HuffmanNode node = new HuffmanNode(null, (n.getFrequency() + m.getFrequency()), n, m);
+    }
+
+
+
+    /*public static void writeData(String saveFile, LinkedList<WordCount> list) throws IOException {
+        //creating a new file with the name of the param inputted
+        File file = new File(saveFile);
+        //if statement to check if the file already exists
+        if (file.exists()) {
+            throw new IOException("File already exists.");
+        }
+        //writer class to edit the file created
+        FileWriter editer = new FileWriter(file, true);
+        //count to hold the length of the linked list
+        int count = list.length();
+        //holds the number of times a particular word appears
+        double totalCount = 0;
+        //A linked list variable to hold the inputted linked list sorted by the radix sort
+        LinkedList<WordCount> sortedList = TextAnalyze.radixSort(list);
+        //node ptr to traverse the list
+        LLNode<WordCount> nodeptr = sortedList.getFront();
+        //while loop to traverse the list to sum all the word counts
+        while (nodeptr != null) {
+            WordCount wc = nodeptr.getElement();
+            //adding the word counts of each WordCount object to obtain the total
+            totalCount += wc.getCount();
+            nodeptr = nodeptr.getNext();
+        }
+        nodeptr = sortedList.getFront();
+        //while loop to traverse the sorted list to calculate and print the percentage of the occurance of the word
+        while (nodeptr != null) {
+            WordCount wc = nodeptr.getElement();
+            String percent = String.format("%.2f", ((wc.getCount() / totalCount) * 100)) + "%";
+            String line = wc.getWord() + " " + wc.getCount() + " " + percent + "\n";
+            System.out.println(wc.getWord());
+            editer.write(line);
+            nodeptr = nodeptr.getNext();
+        }
+        editer.close();
+    }*/
+}

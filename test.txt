@@ -1,0 +1,1 @@
+Try encoding this message by typing "java HuffmanEncoder test.txt testOutput.txt"!
